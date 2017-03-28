@@ -1,0 +1,686 @@
+Feature:user Login
+	Check if the user login functionality works
+
+@mytag
+Scenario: Add two numbers
+	Given I navigate to the application
+	And I enter username and password
+	| username | password |
+	| admin    | admin    |
+	And I click login
+	And I start entering user details like
+	| Initial | FirstName | MiddleName |
+	| k       | Karthik   | K          |
+	And I click submit button
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TechTalk.SpecFlow;
+
+namespace SpecflowParallelTest.Steps
+{
+    [Binding]
+    class LoginSteps
+    {
+        [Given(@"I navigate to the application")]
+        public void GivenINavigateToTheApplication()
+        {
+            Console.WriteLine("I navigate to the application");
+        }
+
+        [Given(@"I enter username and password")]
+        public void GivenIEnterUsernameAndPassword(Table table)
+        {
+            Console.WriteLine("enter username and password");
+        }
+
+        [Given(@"I click login")]
+        public void GivenIClickLogin()
+        {
+            Console.WriteLine("clicked on login button");
+        }
+
+        [Then(@"I see user logged in to the application")]
+        public void ThenISeeUserLoggedInToTheApplication()
+        {
+            Console.WriteLine("User logged into application");
+        }
+
+    }
+}
+
+
+Feature: SampleFeature
+	In order to avoid silly mistakes
+	As a math idiot
+	I want to be told the sum of two numbers
+
+@SmokeTest
+Scenario: Add two numbers
+	Given I have entered 50 into the calculator
+	And I have entered 70 into the calculator
+	When I press add
+	Then the result should be 120 on the screen
+
+Scenario: create a new employee with mandatory details
+	#Given I have opened my app;icatiom
+	#Then I should see employee details page
+	When I fill all the mandatory details in form
+	| Name    | Age | Phone      | Email                  |
+	| Amoolya | 25  | 8325351824 | amoolyag0719@gmail.com |
+	| Abhi    | 25  | 8435890089 | abhi@gmail.com    |
+	| Apoorva | 27  | 568896456  | appu@gmail.com         |
+
+
+	Scenario Outline: create a new employee with mandatory details for different iteration
+	#Given I have opened my applicatiom
+	#Then I should see employee details page
+	When I fill all the mandatory details in form <Name>,<Age>,<Phone> 
+	| Name    | Age | Phone      |
+	| Amoolya | 25  | 8325351824 |
+	| Koushik | 25  | 7165989061 |
+	| Apoorva | 27  | 568896456  |
+  
+  using System;
+using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
+
+namespace specflowIntroduction
+{
+    [Binding]
+    public class SampleFeatureSteps
+    {
+        static void Main(string[] args)
+        {
+
+        }
+        [Given(@"I have entered (.*) into the calculator")]
+        public void GivenIHaveEnteredIntoTheCalculator(int integers)
+        {
+            Console.WriteLine(integers);
+        }
+        
+        [When(@"I press add")]
+        public void WhenIPressAdd()
+        {
+            Console.WriteLine("add pressed");
+            Console.ReadKey();
+        }
+        
+        [Then(@"the result should be (.*) on the screen")]
+        public void ThenTheResultShouldBeOnTheScreen(int result)
+        {
+            if (result == 120)
+                Console.WriteLine("The test Passed");
+            else
+                Console.WriteLine("The Test Failed");
+            Console.ReadKey();
+        }
+       
+            [When(@"I fill all the mandatory details in form")]
+            public void WhenIFillAllTheMandatoryDetailsInForm(Table table)
+            {
+           var emp=table.CreateSet<Employee>();
+            foreach (Employee now in emp)
+            {
+                Console.WriteLine(now.Age);
+                Console.WriteLine(now.Email);
+                Console.WriteLine(now.Name);
+                Console.WriteLine(now.Phone);
+            }
+            
+
+            }
+        [When(@"I fill all the mandatory details in form (.*),(.*),(.*)")]
+        public void WhenIFillAllTheMandatoryDetailsInFormAsAmoolyaAnd(string name,int age, Int64 phone,string email)
+        {
+            Console.WriteLine("Name is" + name);
+            Console.WriteLine("Age is" + age);
+            Console.WriteLine("Phone is"+ phone);
+             
+        }
+
+
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace specflowIntroduction
+{
+    public class Employee
+    {
+        public string Name { get; set; }
+        public string Age { get; set; }
+        public Int64 Phone { get; set; }
+        public string Email { get; set; }
+        
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CollectionListEx
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            Customer cus1 = new Customer()
+            {
+                Id = 101,
+                Name = "amoolya",
+                Salary = 6000,
+                Type="retail customers"
+
+
+            };
+            Customer cus2 = new Customer()
+            {
+                Id = 102,
+                Name = "apoorva",
+                Salary = 5500,
+                Type="Retail customer"
+
+
+            };
+            Customer cus3 = new Customer()
+            {
+                Id = 103,
+                Name="abhi",
+                Salary=3500,
+                Type="retail customer"
+      
+
+            };
+            Customer corp4 = new Customer()
+            {
+                Id = 103,
+                Name = "abhi",
+                Salary = 3500,
+                Type = "coorporate customer"
+
+
+            };
+            Customer corp5 = new Customer()
+            {
+                Id = 103,
+                Name = "abhi",
+                Salary = 3500,
+                Type = "coorporate customer"
+
+
+            };
+          
+            List<Customer> cust = new List<Customer>(2);
+            cust.Add(cus1);
+            cust.Add(cus2);
+            cust.Add(cus3);
+            List<Customer> corp = new List<Customer>();
+            corp.Add(corp4);
+            corp.Add(corp5);
+            cust.AddRange(corp);
+            List<Customer> li=cust.GetRange(3, 2);
+            foreach (Customer k in li)
+            {
+              Console.WriteLine("Id is {0}, Name is {1}, Salary is {2},Type is{3}", k.Id, k.Name, k.Salary, k.Type);
+              Console.ReadKey();
+            }
+
+            if (cust.Contains(cus1))
+            {
+                Console.WriteLine("customer 1 exists");
+            }
+            else
+            {
+                Console.WriteLine("Customer 1 doesnot exists");
+            }
+            if (cust.Exists(cu => cu.Name.StartsWith("a")))/* Exists checks if an item exists in the list based on the condition*/
+                Console.WriteLine("exists");
+            else
+                Console.WriteLine("does not exists");
+            Customer ci=cust.Find(cu => cu.Salary < 5000);
+           //searches for the particular element that matches the condition defined by the special lamda expression and returns the first occurence
+            Console.WriteLine("customer with salary less than 5000 exists");
+            Console.WriteLine("id is:{0},name is :{1},salary is:{2}", ci.Id, ci.Name, ci.Salary);
+            Customer cil = cust.FindLast(cu => cu.Salary > 5000);
+            //FindLast will searches for the last occurence of the item in the list based on the condition
+            Console.WriteLine("customer with salary greater than 5000 exists");
+            Console.WriteLine("id is:{0},name is :{1},salary is:{2}", ci.Id, ci.Name, ci.Salary);
+            int i = cust.FindIndex(cu => cu.Salary > 5000);
+            Console.WriteLine(i);
+            
+            foreach (Customer c in cust)
+            {
+                Console.WriteLine("Customer Id is {0},name is {1}, salary is {2}", c.Id, c.Name, c.Salary);
+                Console.ReadKey();
+            }
+
+
+
+
+        }
+        
+    }
+    public class Customer
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Salary { get; set; }
+        public string Type { get; set; }
+
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DictionaryEx
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<int, string> dic = new Dictionary<int, string>();
+            dic.Add(1, "cat");
+            dic.Add(2, "Dog");
+            dic.Add(3, "Cow");
+            Console.WriteLine(dic);
+            foreach(KeyValuePair<int,string> eng in dic)
+            {
+                Console.WriteLine("key is:{0},value is:{1}", eng.Key, eng.Value);
+            }
+            
+           if( dic.ContainsKey(3)==true)
+            {
+                Console.WriteLine("the key is:{0}", dic[3]);
+                Console.ReadKey();
+            }
+        }
+
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ExceptionEx
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StreamReader stream = null;
+            try
+            {
+                new StreamReader(@"C:\Users\HP\Desktop\practise.txt");
+                Console.WriteLine(stream.ReadToEnd());
+                
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine("please check if the file {0} exists", ex.FileName);
+            }
+            catch(Exception ex)
+            { 
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex.TargetSite);
+                Console.ReadKey();
+            }
+            finally
+            {
+                stream.Close();
+            }
+       
+        }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CollectionListEx
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            Customer cus1 = new Customer()
+            {
+                Id = 101,
+                Name = "amoolya",
+                Salary = 6000,
+                Type="retail customers"
+
+
+            };
+            Customer cus2 = new Customer()
+            {
+                Id = 102,
+                Name = "apoorva",
+                Salary = 5500,
+                Type="Retail customer"
+
+
+            };
+            Customer cus3 = new Customer()
+            {
+                Id = 103,
+                Name="abhi",
+                Salary=3500,
+                Type="retail customer"
+      
+
+            };
+            Customer corp4 = new Customer()
+            {
+                Id = 103,
+                Name = "abhi",
+                Salary = 3500,
+                Type = "coorporate customer"
+
+
+            };
+            Customer corp5 = new Customer()
+            {
+                Id = 103,
+                Name = "abhi",
+                Salary = 3500,
+                Type = "coorporate customer"
+
+
+            };
+          
+            List<Customer> cust = new List<Customer>(2);
+            cust.Add(cus1);
+            cust.Add(cus2);
+            cust.Add(cus3);
+            List<Customer> corp = new List<Customer>();
+            corp.Add(corp4);
+            corp.Add(corp5);
+            cust.AddRange(corp);
+            List<Customer> li=cust.GetRange(3, 2);
+            foreach (Customer k in li)
+            {
+              Console.WriteLine("Id is {0}, Name is {1}, Salary is {2},Type is{3}", k.Id, k.Name, k.Salary, k.Type);
+              Console.ReadKey();
+            }
+
+            if (cust.Contains(cus1))
+            {
+                Console.WriteLine("customer 1 exists");
+            }
+            else
+            {
+                Console.WriteLine("Customer 1 doesnot exists");
+            }
+            if (cust.Exists(cu => cu.Name.StartsWith("a")))/* Exists checks if an item exists in the list based on the condition*/
+                Console.WriteLine("exists");
+            else
+                Console.WriteLine("does not exists");
+            Customer ci=cust.Find(cu => cu.Salary < 5000);
+           //searches for the particular element that matches the condition defined by the special lamda expression and returns the first occurence
+            Console.WriteLine("customer with salary less than 5000 exists");
+            Console.WriteLine("id is:{0},name is :{1},salary is:{2}", ci.Id, ci.Name, ci.Salary);
+            Customer cil = cust.FindLast(cu => cu.Salary > 5000);
+            //FindLast will searches for the last occurence of the item in the list based on the condition
+            Console.WriteLine("customer with salary greater than 5000 exists");
+            Console.WriteLine("id is:{0},name is :{1},salary is:{2}", ci.Id, ci.Name, ci.Salary);
+            int i = cust.FindIndex(cu => cu.Salary > 5000);
+            Console.WriteLine(i);
+            
+            foreach (Customer c in cust)
+            {
+                Console.WriteLine("Customer Id is {0},name is {1}, salary is {2}", c.Id, c.Name, c.Salary);
+                Console.ReadKey();
+            }
+
+
+
+
+        }
+        
+    }
+    public class Customer
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Salary { get; set; }
+        public string Type { get; set; }
+
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StaticExample
+{
+    static class Program
+        //static class contains only static members and methods whereas in non static class it can contain static and non static methods and classes
+    {
+        static int i = 10;
+        static void Example()
+        {
+            Console.WriteLine("this is static method");
+        }
+
+        static void Main(string[] args)
+        {
+            Program.Example();
+            //static method can be accessed using the class name
+            Console.WriteLine("the static variable is: {0}", Program.i);
+            Console.ReadKey();
+        }
+    }
+}
+
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace nunitEx
+{
+    class Program
+    {
+        IWebDriver d = new FirefoxDriver();
+        
+        
+        static void Main(string[] args)
+        {
+        }
+        [SetUp]
+        public void Initialize()
+            {
+                d.Navigate().GoToUrl("http://www.google.com");
+            }
+        [Test]
+        public void ExecuteTest()
+        {
+            //EnterText(ele,Value,Type)
+            //usind SelectDropdown method
+            SeleniumSetMethods.SelectDropdown(d, "TitleId", "Mr.", "Id");
+            //using EnterText method
+            SeleniumSetMethods.EnterText(d, "Initial", "executeautomation", "Name");
+            //using click method
+            SeleniumSetMethods.Click(d, "Save", "Name");
+
+        }
+        [TearDown]
+        public void CleanUp()
+        {
+            d.Close();
+            
+            
+        }
+        
+        }
+    
+    }
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MethodCalling
+{
+    class Program
+    {
+        public int FindMaxNumber(int num1, int num2)
+        {
+            int res;
+            if (num1 > num2)
+                res = num1;
+            else
+                res = num2;
+            return res;
+        }
+
+        static void Main(String[] args)
+        {
+            int a = 100;
+            int b = 200;
+            int set;
+            Program prg = new Program();
+            set=prg.FindMaxNumber(a,b);
+            Console.WriteLine("the result is {0}" ,set);
+            Console.ReadKey();
+        }
+        
+    }
+       
+    
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InterfaceEx
+{
+     interface ICustomer1
+    {
+        void Method1();
+    }
+    interface ICustomer2 : ICustomer1
+    {
+        void Method2();
+    }
+     public class Customer3 : ICustomer2,ICustomer1
+    {
+        public void Method2()
+        {
+            Console.WriteLine("This is method1");
+        }
+        public void Method1()
+        {
+            Console.WriteLine("This is method2");
+        }
+    }
+    class Sample
+    { 
+        static void Main(string[] args)
+        {
+            ICustomer2 three = new Customer3();
+            //we can use interface reference variable to point to a derived class object or
+            //Customer3 three=new Customer3();
+            three.Method1();
+            three.Method1();
+            Console.ReadKey();
+
+        }
+    }
+}
+
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SeleniumEx2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IWebDriver d = new FirefoxDriver();
+            d.Navigate().GoToUrl("https://accounts.google.com/SignUp");
+            d.FindElement(By.Id("FirstName")).SendKeys("amoolya");
+            d.FindElement(By.Id("LastName")).SendKeys("Ganta");
+            d.FindElement(By.Id("GmailAddress")).SendKeys("amoolyag0719@gmail.com");
+            d.FindElement(By.Id("Passwd")).SendKeys("Kushi0524");
+            d.FindElement(By.Id("PasswdAgain")).SendKeys("xyz052");
+            d.FindElement(By.XPath("//*[@id='BirthYear']")).SendKeys("july");
+            d.FindElement(By.XPath("//*[@id='BirthDay']")).SendKeys("19");
+
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SubstringEx
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string s1 = "This is an example of adhgfdjdj";
+            s1.IndexOf("s");
+            string res=s1.Substring(23);
+            Console.WriteLine("The substring is " + res);
+            Console.ReadKey();
+        }
+    }
+}
